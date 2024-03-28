@@ -7,11 +7,13 @@ using System;
 
 public class Quiz : MonoBehaviour
 {
-    [SerializeField] QuestionSO question;
+    [SerializeField] List<QuestionSO> questionList = new List<QuestionSO>();
+    QuestionSO question;
     [SerializeField] TextMeshProUGUI questionText;
     [SerializeField] GameObject[] answerButtons;
 
     int correctAnswerIndex;
+    bool hasAnsweredEarly = true;
     [SerializeField] Sprite correctAnswerSprite;
     [SerializeField] Sprite defaultAnswerSprite;
 
@@ -40,9 +42,30 @@ public class Quiz : MonoBehaviour
     void Update()
     {
         timerImage.fillAmount = timer.fillFraction;
+
+        if (timer.loadNextQuestion)
+        {
+            hasAnsweredEarly = false;
+            GetNextQuestion();
+            timer.loadNextQuestion = false;
+        }
+        else if (!hasAnsweredEarly && !timer.isAnsweringQuestion)
+        {
+            DisplayAnswer(-1);
+            SetButtonState(false);
+        }
     }
 
     public void OnAnswerSelected(int index)
+    {
+        hasAnsweredEarly = true;
+        DisplayAnswer(index);
+
+        SetButtonState(false);
+        timer.CancelTimer();
+    }
+
+    private void DisplayAnswer(int index)
     {
         correctAnswerIndex = question.GetCorrectAnswerIndex();
         if (index == correctAnswerIndex)
@@ -55,14 +78,12 @@ public class Quiz : MonoBehaviour
         else
         {
             questionText.text = "Wrong! The correct answer was "
-                                + question.GetAnswer(correctAnswerIndex) 
+                                + question.GetAnswer(correctAnswerIndex)
                                 + ".";
 
             Image buttonImage = answerButtons[correctAnswerIndex].GetComponent<Image>();
             buttonImage.sprite = correctAnswerSprite;
         }
-
-        SetButtonState(false);
     }
 
     void SetButtonState(bool state) 
@@ -88,7 +109,5 @@ public class Quiz : MonoBehaviour
         SetButtonState(true);
         DisplayQuestion();
         SetDefaultButtonSprite();
-
-        
     }
 }

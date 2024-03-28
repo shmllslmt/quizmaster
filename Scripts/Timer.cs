@@ -9,8 +9,8 @@ public class Timer : MonoBehaviour
     [SerializeField] float timeToShowAnswer = 10f;
 
     public float fillFraction;
-
     public bool isAnsweringQuestion = true;
+    public bool loadNextQuestion = true;
 
 
     // Update is called once per frame
@@ -41,6 +41,7 @@ public class Timer : MonoBehaviour
             {
                 timerValue = timeToShowQuestion;
                 isAnsweringQuestion = true;
+                loadNextQuestion = true;
             }
             else
             {
@@ -49,5 +50,10 @@ public class Timer : MonoBehaviour
         }
         
         Debug.Log(timerValue);
+    }
+
+    public void CancelTimer()
+    {
+        timerValue = 0;
     }
 }
