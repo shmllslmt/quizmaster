@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using System;
 
 public class Quiz : MonoBehaviour
 {
@@ -24,7 +23,6 @@ public class Quiz : MonoBehaviour
     void Start()
     {
         timer = FindObjectOfType<Timer>();
-        GetNextQuestion();
     }
 
     void DisplayQuestion()
@@ -65,7 +63,7 @@ public class Quiz : MonoBehaviour
         timer.CancelTimer();
     }
 
-    private void DisplayAnswer(int index)
+    void DisplayAnswer(int index)
     {
         correctAnswerIndex = question.GetCorrectAnswerIndex();
         if (index == correctAnswerIndex)
@@ -83,6 +81,17 @@ public class Quiz : MonoBehaviour
 
             Image buttonImage = answerButtons[correctAnswerIndex].GetComponent<Image>();
             buttonImage.sprite = correctAnswerSprite;
+        }
+    }
+
+    void GetRandomQuestion()
+    {
+        int randomIndex = Random.Range(0, questionList.Count);
+        question = questionList[randomIndex];
+
+        if (questionList.Contains(question))
+        { 
+            questionList.RemoveAt(randomIndex);
         }
     }
 
@@ -106,8 +115,16 @@ public class Quiz : MonoBehaviour
 
     void GetNextQuestion()
     {
-        SetButtonState(true);
-        DisplayQuestion();
-        SetDefaultButtonSprite();
+        if (questionList.Count > 0)
+        {
+            SetButtonState(true);
+            GetRandomQuestion();
+            DisplayQuestion();
+            SetDefaultButtonSprite();
+        }
+        else 
+        {
+            timerImage.fillAmount = 0;
+        }
     }
 }
