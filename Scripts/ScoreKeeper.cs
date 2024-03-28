@@ -7,27 +7,27 @@ public class ScoreKeeper : MonoBehaviour
     int correctAnswer;
     int questionComplete;
 
-    int GetCorrectAnswer()
+    public int GetCorrectAnswer()
     { 
         return correctAnswer;
     }
 
-    int GetQuestionComplete()
+    public int GetQuestionComplete()
     { 
         return questionComplete;
     }
 
-    void IncrementCorrectAnswer()
+    public void IncrementCorrectAnswer()
     { 
         correctAnswer++;
     }
 
-    void IncrementQuestionComplete()
+    public void IncrementQuestionComplete()
     { 
         questionComplete++;
     }
 
-    int CalculateScore()
+    public int CalculateScore()
     { 
         return Mathf.RoundToInt(correctAnswer / (float)questionComplete * 100); // 2/5
     }

@@ -9,7 +9,7 @@ public class Timer : MonoBehaviour
     [SerializeField] float timeToShowAnswer = 10f;
 
     public float fillFraction;
-    public bool isAnsweringQuestion = true;
+    public bool isAnsweringQuestion = false;
     public bool loadNextQuestion = true;
 
 
@@ -48,8 +48,6 @@ public class Timer : MonoBehaviour
                 fillFraction = timerValue / timeToShowAnswer;
             }
         }
-        
-        Debug.Log(timerValue);
     }
 
     public void CancelTimer()
