@@ -13,7 +13,7 @@ public class Quiz : MonoBehaviour
 
     int correctAnswerIndex;
     bool hasAnsweredEarly = true;
-    bool isComplete = false;
+    public bool isComplete = false;
 
     [SerializeField] Sprite correctAnswerSprite;
     [SerializeField] Sprite defaultAnswerSprite;
